@@ -18,13 +18,11 @@ import java.util.ArrayList;
 
 public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder> {
     ArrayList<TravelDeal> deals;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private ChildEventListener childEventListener;
 
     public DealAdapter(){
         FirebaseUtil.openFirebaseReference("traveldeals");
-        firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
         deals = FirebaseUtil.deals;
         childEventListener = new ChildEventListener() {
@@ -80,13 +78,20 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     }
 
     public class DealViewHolder extends RecyclerView.ViewHolder{
-        TextView textView;
+        TextView tvTitle;
+        TextView tvDescription;
+        TextView tvPrice;
+
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textTitle);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvDescription = itemView.findViewById(R.id.tvDescription);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
         }
         public void bind(TravelDeal deal){
-            textView.setText(deal.getTitle());
+            tvTitle.setText(deal.getTitle());
+            tvDescription.setText(deal.getDescription());
+            tvPrice.setText(deal.getPrice());
         }
     }
 }
