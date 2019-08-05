@@ -12,12 +12,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class InsertActivity extends AppCompatActivity {
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     EditText txtTitle;
     EditText txtPrice;
@@ -28,7 +25,6 @@ public class InsertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
         FirebaseUtil.openFirebaseReference("traveldeals");
-        firebaseDatabase = FirebaseUtil.firebaseDatabase;
         databaseReference = FirebaseUtil.databaseReference;
         txtTitle = findViewById(R.id.txtTitle);
         txtPrice = findViewById(R.id.txtPrice);
@@ -58,7 +54,7 @@ public class InsertActivity extends AppCompatActivity {
         String title = txtTitle.getText().toString();
         String price = txtPrice.getText().toString();
         String description = txtDescription.getText().toString();
-        TravelDeal travelDeal = new TravelDeal(title, price, description, "");
+        TravelDeal travelDeal = new TravelDeal(title, description, price, "");
         databaseReference.push().setValue(travelDeal).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
