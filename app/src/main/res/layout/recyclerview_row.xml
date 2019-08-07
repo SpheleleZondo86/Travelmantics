@@ -7,7 +7,7 @@
 
 
     <ImageView
-        android:id="@+id/ImageDeal"
+        android:id="@+id/imageDeal"
         android:layout_width="93dp"
         android:layout_height="97dp"
         android:layout_marginStart="@dimen/text_margin_standard"
@@ -26,7 +26,7 @@
         android:layout_marginTop="@dimen/text_margin_standard"
         android:textSize="@dimen/title_large"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/ImageDeal"
+        app:layout_constraintStart_toEndOf="@+id/imageDeal"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginLeft="@dimen/text_margin_standard"
         android:layout_marginTop="@dimen/text_margin_standard"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/ImageDeal"
+        app:layout_constraintStart_toEndOf="@+id/imageDeal"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <TextView
