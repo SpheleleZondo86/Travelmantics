@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.auth.data.model.Resource;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +54,7 @@ public class DealActivity extends AppCompatActivity {
         txtDescription.setText(travelDeal.getDescription());
         showImage(deal.getImageURL());
         Button button = findViewById(R.id.btnImage);
+        button.setEnabled(FirebaseUtil.isAdmin);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +128,20 @@ public class DealActivity extends AppCompatActivity {
                     if (task.isSuccessful()){
                         Toast.makeText(getApplicationContext(), "Deal deleted!", Toast.LENGTH_SHORT).show();
                         backToList();
+                        if (deal.getImageName() != null && !deal.getImageName().isEmpty()){
+                            StorageReference pictureReference = FirebaseUtil.firebaseStorage.getReference().child(deal.getImageName());
+                            pictureReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("Delete Image", "Image successfully deleted");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("Delete Image", e.getMessage());
+                                }
+                            });
+                        }
                     }
                 }
             });
@@ -172,6 +189,8 @@ public class DealActivity extends AppCompatActivity {
                                     showImage(imageUrl);
                                 }
                             });
+                            String path = taskSnapshot.getStorage().getPath();
+                            deal.setImageName(path);
                         }
                     }
                 }
